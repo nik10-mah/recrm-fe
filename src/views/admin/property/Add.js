@@ -125,7 +125,21 @@ const Add = (props) => {
                                 <FormLabel display='flex' ms='4px' fontSize='sm' fontWeight='500' mb='8px'>
                                     Property Type<Text color={"red"}>*</Text>
                                 </FormLabel>
-                                <Input
+                                <Select
+                                    value={values.propertyType}
+                                    name="propertyType"
+                                    onChange={handleChange}
+                                    fontWeight='500'
+                                    placeholder={'Select Property Type'}
+                                    borderColor={errors.propertyType && touched.propertyType ? "red.300" : null}
+                                >
+                                    <option value='Apartment'>Apartment</option>
+                                    <option value='Townhouse'>Townhouse</option>
+                                    <option value='Condo'>Condo</option>
+                                    <option value='Cabin'>Cabin</option>
+                                    <option value='Commercial'>Commercial</option>
+                                </Select>
+                                {/* <Input
                                     fontSize='sm'
                                     onChange={handleChange} onBlur={handleBlur}
                                     value={values.propertyType}
@@ -133,7 +147,7 @@ const Add = (props) => {
                                     placeholder='Enter Property Type'
                                     fontWeight='500'
                                     borderColor={errors.propertyType && touched.propertyType ? "red.300" : null}
-                                />
+                                /> */}
                                 <Text mb='10px' color={'red'}> {errors.propertyType && touched.propertyType && errors.propertyType}</Text>
                             </GridItem>
                             <GridItem colSpan={{ base: 12, sm: 6 }}>

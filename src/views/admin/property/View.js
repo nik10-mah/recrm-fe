@@ -352,9 +352,7 @@ const View = () => {
                                                 </GridItem>
                                                 <GridItem colSpan={{ base: 12 }} >
                                                     <Flex flexWrap={'wrap'} justifyContent={'center'} alingItem={'center'} >
-                                                        {data?.propertyPhotos?.map((item) => (
-                                                            <Image width={'30%'} m={1} src={item.img} alt="Your Image" />
-                                                        ))}
+                                                        {data?.propertyPhotos?.map((item) =>  item.img && <Image width={'30%'} m={1} src={item.img} alt="Your Image" /> )}
                                                     </Flex>
                                                 </GridItem>
                                             </Grid>
@@ -409,9 +407,7 @@ const View = () => {
                                                 </GridItem>
                                                 <GridItem colSpan={{ base: 12 }} >
                                                     <Flex flexWrap={'wrap'} justifyContent={'center'} alingItem={'center'} >
-                                                        {data?.floorPlans?.map((item) => (
-                                                            <Image key={item.createOn} width={'30%'} m={1} src={item.img} alt="Your Image" />
-                                                        ))}
+                                                        {data?.floorPlans?.map((item) => item.img && <Image width={'30%'} m={1} src={item.img} alt="Your Image" />)}
                                                     </Flex>
                                                 </GridItem>
                                             </Grid>
