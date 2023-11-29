@@ -402,7 +402,7 @@ const Add = (props) => {
                                     fontWeight='500'
                                     borderColor={errors.listingAgent && touched.listingAgent ? "red.300" : null}
                                 >
-                                    {agents.map(a => <option value='a._id'>{a.firstName} {a.lastName}</option>)}
+                                    {agents.map(a => <option key={a._id} value={a._id}>{a.firstName} {a.lastName}</option>)}
                                 </Select>
                                 {/* <Input
                                     fontSize='sm'
