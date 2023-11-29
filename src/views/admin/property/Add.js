@@ -3,12 +3,14 @@ import { Button, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, 
 import { HSeparator } from 'components/separator/Separator';
 import Spinner from 'components/spinner/Spinner';
 import { useFormik } from 'formik';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { propertySchema } from 'schema';
+import { getApi } from 'services/api';
 import { postApi } from 'services/api';
 
 const Add = (props) => {
-    const [isLoding, setIsLoding] = useState(false)
+    const [isLoding, setIsLoding] = useState(false);
+    const [agents, setAgents] = useState([]);
 
     const initialValues = {
         //1. basicPropertyInformation:
@@ -36,6 +38,7 @@ const Add = (props) => {
         //4. Listing and Marketing Details:
         listingStatus: "",
         listingAgentOrTeam: "",
+        listingAgent: "",
         listingDate: "",
         marketingDescription: "",
         multipleListingService: "",
@@ -55,6 +58,18 @@ const Add = (props) => {
         internalNotesOrComments: "",
         createBy: JSON.parse(localStorage.getItem('user'))._id,
     };
+
+
+    useEffect(() => {
+      fetchAgents();
+    }, []);
+
+    const fetchAgents = async () => {
+        setIsLoding(true)
+        let result = await getApi('api/user/');
+        setAgents(result.data?.user);
+        setIsLoding(false)
+      }
 
     const formik = useFormik({
         initialValues: initialValues,
@@ -377,9 +392,19 @@ const Add = (props) => {
                             </GridItem>
                             <GridItem colSpan={{ base: 12, sm: 6 }}>
                                 <FormLabel display='flex' ms='4px' fontSize='sm' fontWeight='500' mb='8px'>
-                                    Listing Agent Or Team
+                                    Listing Agent
                                 </FormLabel>
-                                <Input
+                                <Select
+                                    onChange={handleChange} onBlur={handleBlur}
+                                    value={values.listingAgent}
+                                    name="listingAgent"
+                                    placeholder='Select Listing Agent'
+                                    fontWeight='500'
+                                    borderColor={errors.listingAgent && touched.listingAgent ? "red.300" : null}
+                                >
+                                    {agents.map(a => <option value='a._id'>{a.firstName} {a.lastName}</option>)}
+                                </Select>
+                                {/* <Input
                                     fontSize='sm'
                                     onChange={handleChange} onBlur={handleBlur}
                                     value={values.listingAgentOrTeam}
@@ -387,8 +412,8 @@ const Add = (props) => {
                                     placeholder='Enter Listing Agent Or Team'
                                     fontWeight='500'
                                     borderColor={errors.listingAgentOrTeam && touched.listingAgentOrTeam ? "red.300" : null}
-                                />
-                                <Text mb='10px' color={'red'}>{errors.listingAgentOrTeam && touched.listingAgentOrTeam && errors.listingAgentOrTeam}</Text>
+                                /> */}
+                                <Text mb='10px' color={'red'}>{errors.listingAgent && touched.listingAgent && errors.listingAgent}</Text>
                             </GridItem>
                             <GridItem colSpan={{ base: 12, sm: 6 }}>
                                 <FormLabel display='flex' ms='4px' fontSize='sm' fontWeight='500' mb='8px'>

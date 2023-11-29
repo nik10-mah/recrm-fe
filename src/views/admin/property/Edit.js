@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import { propertySchema } from 'schema';
 import { getApi, putApi } from 'services/api';
 const Edit = (props) => {
-
+    const [agents, setAgents] = useState([]);
     const initialValues = {
         //1. basicPropertyInformation
         propertyType: "",
@@ -35,6 +35,7 @@ const Edit = (props) => {
         //4. Listing and Marketing Details
         listingStatus: "",
         listingAgentOrTeam: "",
+        listingAgent: "",
         listingDate: "",
         marketingDescription: "",
         multipleListingService: "",
@@ -56,6 +57,14 @@ const Edit = (props) => {
     };
     const param = useParams()
 
+
+    const fetchAgents = async () => {
+        setIsLoding(true)
+        let result = await getApi('api/user/');
+        setAgents(result.data?.user);
+        setIsLoding(false)
+      }
+
     const formik = useFormik({
         initialValues: initialValues,
         validationSchema: propertySchema,
@@ -68,7 +77,7 @@ const Edit = (props) => {
     const [isLoding, setIsLoding] = useState(false)
 
     const EditData = async () => {
-        try {
+                try {
             setIsLoding(true)
             let response = await putApi(`api/property/edit/${param.id}`, values)
             if (response.status === 200) {
@@ -115,6 +124,7 @@ const Edit = (props) => {
         //4. Listing and Marketing Details
         values.listingStatus = response?.data?.property?.listingStatus;
         values.listingAgentOrTeam = response?.data?.property?.listingAgentOrTeam;
+        values.listingAgent = response?.data?.property?.listingAgent;
         values.listingDate = response?.data?.property?.listingDate;
         values.marketingDescription = response?.data?.property?.marketingDescription;
         values.multipleListingService = response?.data?.property?.multipleListingService;
@@ -135,7 +145,8 @@ const Edit = (props) => {
     }
 
     useEffect(() => {
-        fetchData()
+        fetchAgents();
+        fetchData();
     }, [])
 
     return (
@@ -428,9 +439,19 @@ const Edit = (props) => {
                             </GridItem>
                             <GridItem colSpan={{ base: 12, sm: 6 }}>
                                 <FormLabel display='flex' ms='4px' fontSize='sm' fontWeight='500' mb='8px'>
-                                    Listing Agent Or Team
+                                    Listing Agent
                                 </FormLabel>
-                                <Input
+                                <Select
+                                    onChange={handleChange} onBlur={handleBlur}
+                                    value={values.listingAgent}
+                                    name="listingAgent"
+                                    placeholder='Select Listing Agent'
+                                    fontWeight='500'
+                                    borderColor={errors.listingAgent && touched.listingAgent ? "red.300" : null}
+                                >
+                                    {agents.map(a => <option key={a._id} value={a._id}>{a.firstName} {a.lastName}</option>)}
+                                </Select>
+                                {/* <Input
                                     fontSize='sm'
                                     onChange={handleChange} onBlur={handleBlur}
                                     value={values.listingAgentOrTeam}
@@ -438,8 +459,8 @@ const Edit = (props) => {
                                     placeholder='Enter Listing Agent Or Team'
                                     fontWeight='500'
                                     borderColor={errors.listingAgentOrTeam && touched.listingAgentOrTeam ? "red.300" : null}
-                                />
-                                <Text mb='10px' color={'red'}>{errors.listingAgentOrTeam && touched.listingAgentOrTeam && errors.listingAgentOrTeam}</Text>
+                                /> */}
+                                <Text mb='10px' color={'red'}>{errors.listingAgent && touched.listingAgent && errors.listingAgent}</Text>
                             </GridItem>
                             <GridItem colSpan={{ base: 12, sm: 6 }}>
                                 <FormLabel display='flex' ms='4px' fontSize='sm' fontWeight='500' mb='8px'>

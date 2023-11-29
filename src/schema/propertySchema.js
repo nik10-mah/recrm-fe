@@ -20,13 +20,13 @@ export const propertySchema = yup.object({
     exteriorFeatures: yup.string(),
     communityAmenities: yup.string(),
     //3. Media and Visuals:
-    propertyPhotos: yup.string(),
-    virtualToursOrVideos: yup.string(),
-    floorPlans: yup.string(),
-    propertyDocuments: yup.string(),
+    // propertyPhotos: yup.string(),
+    // virtualToursOrVideos: yup.string(),
+    // floorPlans: yup.string(),
+    // propertyDocuments: yup.string(),
     //4. Listing and Marketing Details:
     listingStatus: yup.string(),
-    listingAgentOrTeam: yup.string(),
+    listingAgent: yup.string(),
     listingDate: yup.string(),
     marketingDescription: yup.string(),
     multipleListingService: yup.string(),

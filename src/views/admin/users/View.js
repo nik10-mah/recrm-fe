@@ -43,7 +43,7 @@ const View = () => {
 
 
                     <Add isOpen={isOpen} size={size} onClose={onClose} />
-                    <Edit isOpen={edit} size={size} onClose={setEdit} />
+                    <Edit isOpen={edit} size={size} onClose={setEdit} fetchData={fetchData}/>
                     <Delete isOpen={deleteModel} onClose={setDelete} method='one' url='api/user/delete/' id={param.id} />
 
                     <Grid templateColumns="repeat(6, 1fr)" mb={3} gap={1}>
@@ -73,16 +73,14 @@ const View = () => {
                     </Grid>
 
 
-                    <Grid templateColumns="repeat(4, 1fr)" gap={3}>
-
-
-                        <GridItem colSpan={{ base: 4 }}>
+                    <Grid templateColumns="repeat(12, 1fr)" gap={2}>
+                        <GridItem colSpan={{ base: 5 }}>
                             <Card >
                                 <Grid templateColumns={{ base: "1fr" }} gap={4}>
                                     <GridItem colSpan={2}>
                                         <Box>
                                             <Heading size="md" mb={3} textTransform={'capitalize'}>
-                                                {data?.firstName || data?.lastName ? `${data?.firstName} ${data?.lastName}` : 'User'} Information
+                                                {data?.firstName || data?.lastName ? `${data?.firstName} ${data?.lastName}` : 'User'}
                                             </Heading>
                                             <HSeparator />
                                         </Box>
@@ -112,8 +110,51 @@ const View = () => {
                                 </Grid>
                             </Card>
                         </GridItem>
+                        <GridItem colSpan={{ base: 7 }}>
+                            <Card>
+                            <Grid templateColumns={{ base: "1fr" }} gap={4}>
+                                    <GridItem colSpan={2}>
+                                        <Box>
+                                            <Heading size="md" mb={3} textTransform={'capitalize'}>
+                                                Experience
+                                            </Heading>
+                                            <HSeparator />
+                                        </Box>
+                                    </GridItem>
+                                    <Grid templateColumns={'repeat(2, 1fr)'} gap={4}>
+                                                    <GridItem colSpan={{ base: 2 }}>
+                                                        {/* <Text fontSize="sm" fontWeight="bold" color={'blackAlpha.900'}> Tags Or Labels For Categorizing Contacts </Text> */}
+                                                        <Text>{data?.experience || 'Please add your experience'}</Text>
+                                                    </GridItem>
+                                                </Grid>
+                                    </Grid>
+                            </Card>
+                            </GridItem>
+                    
+                        <GridItem colSpan={{ base: 12 }}>
+                            <Card>
+                            <Grid templateColumns={{ base: "1fr" }} gap={4}>
+                                    <GridItem colSpan={2}>
+                                        <Box>
+                                            <Heading size="md" mb={3} textTransform={'capitalize'}>
+                                                Bio
+                                            </Heading>
+                                            <HSeparator />
+                                        </Box>
+                                    </GridItem>
+                                    <Grid templateColumns={'repeat(2, 1fr)'} gap={4}>
+                                                    <GridItem colSpan={{ base: 2 }}>
+                                                        {/* <Text fontSize="sm" fontWeight="bold" color={'blackAlpha.900'}> Tags Or Labels For Categorizing Contacts </Text> */}
+                                                        <Text>{data?.bio || 'Please update your bio'}</Text>
+                                                    </GridItem>
+                                                </Grid>
+                                    </Grid>
+                            </Card>
+                            </GridItem>
 
-                    </Grid>
+                            
+                            
+                            </Grid>
                     <Card mt={3}>
                         <Grid templateColumns="repeat(6, 1fr)" gap={1}>
                             <GridItem colStart={6} >

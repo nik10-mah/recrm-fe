@@ -1,5 +1,5 @@
 import { CloseIcon, PhoneIcon } from '@chakra-ui/icons';
-import { Button, FormLabel, Grid, GridItem, IconButton, Input, InputGroup, InputLeftElement, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from '@chakra-ui/react';
+import { Button, Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, FormLabel, Grid, GridItem, IconButton, Input, InputGroup, InputLeftElement, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Text, Textarea } from '@chakra-ui/react';
 import Spinner from 'components/spinner/Spinner';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
@@ -10,13 +10,16 @@ import { getApi, putApi } from 'services/api';
 
 
 const Edit = (props) => {
-    const { onClose, isOpen, fetchData } = props
+    const { onClose, isOpen, fetchData, size } = props
 
     const initialValues = {
         firstName: '',
         lastName: '',
         username: '',
-        phoneNumber: ''
+        phoneNumber: '',
+        role: '',
+        bio: '',
+        experience: ''
     }
 
     const formik = useFormik({
@@ -56,6 +59,9 @@ const Edit = (props) => {
         setFieldValue('lastName', response.data?.lastName)
         setFieldValue('username', response.data?.username)
         setFieldValue('phoneNumber', response.data?.phoneNumber)
+        setFieldValue('role', response.data?.role)
+        setFieldValue('bio', response.data?.bio)
+        setFieldValue('experience', response.data?.experience)
     }
 
     useEffect(() => {
@@ -64,14 +70,15 @@ const Edit = (props) => {
 
 
     return (
-        <Modal isOpen={isOpen} isCentered>
-            <ModalOverlay />
-            <ModalContent>
-                <ModalHeader justifyContent='space-between' display='flex' >
-                    Edit User
-                    <IconButton onClick={() => onClose(false)} icon={<CloseIcon />} />
-                </ModalHeader>
-                <ModalBody>
+        <div>
+        <Drawer isOpen={isOpen} size={size}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerHeader justifyContent="space-between" display="flex">
+            Edit User
+            <IconButton onClick={() => onClose(false)} icon={<CloseIcon />} />
+          </DrawerHeader>
+          <DrawerBody>
 
                     <Grid templateColumns="repeat(12, 1fr)" gap={3}>
 
@@ -122,6 +129,36 @@ const Edit = (props) => {
                             <Text mb='10px' color={'red'}> {errors.username && touched.username && errors.username}</Text>
                         </GridItem>
                         <GridItem colSpan={{ base: 12 }}>
+                <FormLabel
+                  display="flex"
+                  ms="4px"
+                  fontSize="sm"
+                  fontWeight="500"
+                  mb="4px"
+                >
+                  Role
+                </FormLabel>
+                <Select
+                  value={values.role}
+                  name="role"
+                  onChange={handleChange}
+                  mb={errors.role && touched.role ? undefined : "10px"}
+                  fontWeight="500"
+                  borderColor={errors.role && touched.role ? "red.300" : null}
+                  placeholder="Select Role"
+                >
+                  <option value="agent">Agent</option>
+                  <option value="user">User</option>
+                  <option value="admin">Admin</option>
+                </Select>
+                {errors.role && touched.role && (
+                  <Text mb="10px" color={"red"}>
+                    {" "}
+                    {errors.role}
+                  </Text>
+                )}
+              </GridItem>
+                        <GridItem colSpan={{ base: 12 }}>
                             <FormLabel display='flex' ms='4px' fontSize='sm' fontWeight='500' mb='8px'>
                                 Phone Number<Text color={"red"}>*</Text>
                             </FormLabel>
@@ -141,16 +178,77 @@ const Edit = (props) => {
                             </InputGroup>
                             <Text mb='10px' color={'red'}>{errors.phoneNumber && touched.phoneNumber && errors.phoneNumber}</Text>
                         </GridItem>
+
+                        <GridItem colSpan={{ base: 12 }}>
+                <FormLabel
+                  display="flex"
+                  ms="4px"
+                  fontSize="sm"
+                  fontWeight="500"
+                  mb="4px"
+                >
+                  Bio
+                </FormLabel>
+                <Textarea
+                  fontSize="sm"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  size="lg"
+                  value={values.bio}
+                  name="bio"
+                  placeholder="Bio"
+                  fontWeight="500"
+                  rows={8}
+                  borderColor={
+                    errors.bio && touched.bio ? "red.300" : null
+                  }
+                />
+                <Text mb="10px" color={"red"}>
+                  {" "}
+                  {errors.bio && touched.bio && errors.bio}
+                </Text>
+              </GridItem>
+              <GridItem colSpan={{ base: 12 }}>
+                <FormLabel
+                  display="flex"
+                  ms="4px"
+                  fontSize="sm"
+                  fontWeight="500"
+                  mb="4px"
+                >
+                  Experience
+                </FormLabel>
+                <Textarea
+                  fontSize="sm"
+                  size="lg"
+                  rows={8}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.experience}
+                  name="experience"
+                  placeholder="Experience"
+                  fontWeight="500"
+                  borderColor={
+                    errors.experience && touched.experience ? "red.300" : null
+                  }
+                />
+                <Text mb="10px" color={"red"}>
+                  {" "}
+                  {errors.experience && touched.experience && errors.experience}
+                </Text>
+              </GridItem>
                     </Grid>
 
 
-                </ModalBody>
-                <ModalFooter>
-                    <Button variant='brand' disabled={isLoding ? true : false} onClick={handleSubmit}>{isLoding ? <Spinner /> : 'Update Data'}</Button>
-                    <Button onClick={() => onClose(false)}>close</Button>
-                </ModalFooter>
-            </ModalContent>
-        </Modal>
+                    </DrawerBody>
+
+                    <DrawerFooter>
+                        <Button variant='brand' disabled={isLoding ? true : false} onClick={handleSubmit}>{isLoding ? <Spinner /> : 'Update Data'}</Button>
+                        <Button onClick={() => onClose(false)}>Close</Button>
+                    </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    </div>
     )
 }
 

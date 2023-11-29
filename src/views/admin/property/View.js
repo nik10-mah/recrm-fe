@@ -244,8 +244,8 @@ const View = () => {
                                                     <Text>{data?.listingStatus}</Text>
                                                 </GridItem>
                                                 <GridItem colSpan={{ base: 12, md: 6 }} >
-                                                    <Text color={'blackAlpha.900'} fontSize="sm" fontWeight="bold"> Listing Agent Or Team </Text>
-                                                    <Text>{data?.listingAgentOrTeam}</Text>
+                                                    <Text color={'blackAlpha.900'} fontSize="sm" fontWeight="bold"> Listing Agent </Text>
+                                                    <Text>{data?.listingAgent?.firstName} {data?.listingAgent?.lastName}</Text>
                                                 </GridItem>
                                                 <GridItem colSpan={{ base: 12, md: 6 }} >
                                                     <Text color={'blackAlpha.900'} fontSize="sm" fontWeight="bold"> Listing Date </Text>

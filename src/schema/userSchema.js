@@ -5,4 +5,7 @@ export const userSchema = yup.object({
     lastName: yup.string(),
     phoneNumber: yup.string().required("Phone Number Is required").matches(/^\d{10}$/, "Phone Number must be exactly 10 digits"),
     username: yup.string().email().required("Email Is required"),
+    role: yup.string().required("Please select role"),
+    experience: yup.string(),
+    bio: yup.string(),
 })
